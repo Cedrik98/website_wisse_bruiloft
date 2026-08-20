@@ -1,0 +1,20 @@
+# Word documents
+*.docx
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.log
+
+# Node, in case we use it later
+node_modules/
+reference_img/
