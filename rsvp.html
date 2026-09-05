@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RSVP · Myrthe & Wisse</title>
+<meta name="description" content="Laat ons weten of je erbij bent.">
+<meta name="theme-color" content="#F7F2EE">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <defs>
+    <symbol id="sprig" viewBox="0 0 220 46">
+      <g fill="none" stroke="var(--sage)" stroke-width="1.1" stroke-linecap="round">
+        <path d="M24 23 C 70 17, 150 17, 196 23"/>
+        <path d="M52 21 L48 14 M76 19 L73 12 M100 18 L98 11 M124 18 L126 11 M148 19 L152 12 M172 21 L177 14"/>
+        <path d="M64 21 L62 29 M88 19 L87 27 M112 18 L112 26 M136 19 L138 27 M160 20 L164 28"/>
+      </g>
+      <g fill="var(--sage-light)">
+        <ellipse cx="46" cy="12" rx="6.5" ry="4.6" transform="rotate(-32 46 12)"/>
+        <ellipse cx="71" cy="10" rx="7" ry="4.9" transform="rotate(-24 71 10)"/>
+        <ellipse cx="97" cy="9"  rx="7.4" ry="5.2" transform="rotate(-14 97 9)"/>
+        <ellipse cx="127" cy="9" rx="7.4" ry="5.2" transform="rotate(14 127 9)"/>
+        <ellipse cx="153" cy="10" rx="7" ry="4.9" transform="rotate(24 153 10)"/>
+        <ellipse cx="178" cy="12" rx="6.5" ry="4.6" transform="rotate(32 178 12)"/>
+        <ellipse cx="61" cy="31" rx="6.6" ry="4.7" transform="rotate(28 61 31)"/>
+        <ellipse cx="86" cy="29" rx="7" ry="4.9" transform="rotate(20 86 29)"/>
+        <ellipse cx="112" cy="28" rx="7.2" ry="5" transform="rotate(6 112 28)"/>
+        <ellipse cx="139" cy="29" rx="7" ry="4.9" transform="rotate(-18 139 29)"/>
+        <ellipse cx="165" cy="31" rx="6.6" ry="4.7" transform="rotate(-28 165 31)"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="topbar">
+  <a class="topbar__names" href="index.html">Myrthe &amp; Wisse</a>
+  <nav class="topbar__nav" aria-label="Hoofdmenu">
+      <a href="index.html">Welkom</a>
+      <a href="programma.html">Programma</a>
+      <a href="dresscode.html">Dresscode</a>
+      <a href="locaties.html">Locaties</a>
+      <a href="vervoer.html">Vervoer</a>
+      <a href="overnachten.html">Overnachten</a>
+      <a href="zondag.html">Zondag</a>
+      <a href="contact.html">Contact</a>
+      <a href="rsvp.html" aria-current="page">RSVP</a>
+  </nav>
+</header>
+
+<main class="page">
+  <div class="page__head">
+    <h1 class="page__title">RSVP</h1>
+    <svg class="divider" aria-hidden="true"><use href="#sprig"/></svg>
+  </div>
+
+  <p class="page__intro">Laat ons v&oacute;&oacute;r <strong data-rsvp-deadline>[datum]</strong> weten:</p>
+
+  <ul class="checklist">
+    <li>of je erbij bent</li>
+    <li>met hoeveel personen je komt</li>
+    <li>of je gebruik wilt maken van de bus</li>
+    <li>of je zondag aansluit voor koffie &amp; Fries ontbijt</li>
+    <li>eventuele dieetwensen of allergie&euml;n</li>
+  </ul>
+
+  <form class="rsvp" id="rsvp-form" novalidate>
+    <div class="field">
+      <label for="naam">Naam</label>
+      <input id="naam" name="naam" type="text" autocomplete="name" required>
+    </div>
+
+    <div class="field">
+      <label for="email">E-mailadres</label>
+      <input id="email" name="email" type="email" autocomplete="email" required>
+    </div>
+
+    <fieldset class="field">
+      <legend>Ben je erbij?</legend>
+      <div class="choices">
+        <label class="choice"><input type="radio" name="aanwezig" value="Ja, ik ben erbij" checked> Ja, ik ben erbij</label>
+        <label class="choice"><input type="radio" name="aanwezig" value="Helaas, ik kan er niet bij zijn"> Helaas, ik kan er niet bij zijn</label>
+      </div>
+    </fieldset>
+
+    <div class="field field--half">
+      <label for="personen">Aantal personen</label>
+      <input id="personen" name="personen" type="number" min="1" max="10" value="1" inputmode="numeric">
+    </div>
+
+    <fieldset class="field">
+      <legend>Nog even dit</legend>
+      <div class="choices">
+        <label class="choice"><input type="checkbox" name="bus" value="ja"> Ik maak graag gebruik van de bus naar Van der Valk Sneek</label>
+        <label class="choice"><input type="checkbox" name="zondag" value="ja"> Ik sluit zondag aan voor koffie &amp; Fries ontbijt</label>
+      </div>
+    </fieldset>
+
+    <div class="field">
+      <label for="dieet">Dieetwensen of allergie&euml;n</label>
+      <textarea id="dieet" name="dieet" rows="3"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="bericht">Lief bericht (optioneel)</label>
+      <textarea id="bericht" name="bericht" rows="3"></textarea>
+    </div>
+
+    <button class="button" type="submit">Verstuur RSVP</button>
+    <p class="rsvp__fallback">
+      Liever gewoon een mailtje of appje? Dat mag natuurlijk ook &mdash;
+      <a class="link" href="mailto:rsvp@myrthewisse.nl" data-rsvp-mail>rsvp@myrthewisse.nl</a>.
+    </p>
+  </form>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

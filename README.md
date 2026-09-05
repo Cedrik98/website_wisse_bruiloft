@@ -1,18 +1,29 @@
 # Myrthe & Wisse — 27 maart 2027
 
-Statische one-page website (myrthewisse.nl) met alle info uit *Informatie website.docx*,
-in de stijl van de trouwkaart: warm gebroken wit papier, donkerblauwe inkt, zacht eucalyptusgroen.
+Statische website (myrthewisse.nl) in de stijl van de trouwkaart: warm papier,
+blauwe koppen, paarse tekst en een zacht groen eucalyptustakje.
+Elk onderdeel is een eigen pagina; er wordt niet gescrold door alles heen.
 
-## Bestanden
+## Pagina's
 
-| Bestand | Inhoud |
+| Bestand | Pagina |
 |---|---|
-| `index.html` | Alle content + de illustraties (inline SVG: zeilboot, varentakje, eucalyptustakje) |
-| `style.css` | Kleurenpalet en typografie, bovenin als CSS-variabelen |
-| `script.js` | Navigatiebalk, fade-ins en het RSVP-formulier |
+| `index.html` | Voorpagina: namen, datum, zeilboot en welkomsttekst |
+| `programma.html` | Programma van zaterdag |
+| `dresscode.html` | Dresscode |
+| `locaties.html` | Broerekerk en De Pollepleats, met kaartlinks |
+| `vervoer.html` | Vervoer en de bus naar Sneek |
+| `overnachten.html` | Overnachtingsmogelijkheden |
+| `zondag.html` | Zondag 28 maart |
+| `contact.html` | Ceremoniemeesters |
+| `rsvp.html` | RSVP-formulier |
+
+Gedeeld: `style.css` (kleuren en typografie) en `script.js` (alleen voor het RSVP-formulier).
+Het menu bovenaan staat in elke pagina; voeg je een pagina toe, dan moet dat rijtje
+in elk bestand hetzelfde blijven. Onderaan elke pagina staat een link naar de volgende.
 
 Geen build-stap, geen dependencies. Openen kan met een dubbelklik op `index.html`;
-online zetten is een kwestie van de drie bestanden uploaden (of via GitHub Pages / Netlify).
+online komt het via GitHub Pages (branch `main`, root, met `CNAME` op myrthewisse.nl).
 
 ## Nog invullen
 
@@ -20,21 +31,30 @@ In `script.js`, bovenaan bij `CONFIG`:
 
 ```js
 rsvpEmail:    'rsvp@myrthewisse.nl', // eigen mailadres
-rsvpDeadline: '',                      // bijv. '1 februari 2027'
+rsvpDeadline: '',                    // bijv. '1 februari 2027'
 ```
 
-Zolang `rsvpDeadline` leeg is, staat er `[datum]` op de pagina — precies zoals in het Word-document.
+Zolang `rsvpDeadline` leeg is, staat er `[datum]` op de RSVP-pagina.
 
-Het RSVP-formulier werkt zonder server: bij versturen opent de mailapp met een ingevulde mail.
-Wil je de antwoorden liever automatisch binnenkrijgen, vervang dan het submit-blok onderin
+Het formulier werkt zonder server: bij versturen opent de mailapp met een ingevulde mail.
+Wil je de antwoorden liever automatisch binnenkrijgen, vervang dan het submit-blok in
 `script.js` door een POST naar bijvoorbeeld Formspree, Basin of een Google Form.
 
 ## Kleuren & fonts
 
-Aanpassen in `style.css` onder `:root`:
-`--paper #F7F3EA` · `--paper-soft #FAF8F2` · `--navy #24364B` · `--navy-warm #283A52`
-· `--sage #7D8B7A` · `--lavender #A59AB2`.
-Fonts: Playfair Display (titels) en Cormorant Garamond (tekst), via Google Fonts.
+Aanpassen in `style.css` onder `:root`. De waarden zijn uit de kaarten gehaald:
+
+| Variabele | Kleur | Gebruik |
+|---|---|---|
+| `--paper` | `#F7F2EE` | achtergrond |
+| `--navy` | `#0B4A85` | koppen |
+| `--navy-deep` | `#0A2C63` | namen op de voorpagina |
+| `--purple` | `#6B5590` | lopende tekst |
+| `--purple-soft` | `#8C7FA5` | tijden, labels |
+| `--sage` / `--sage-light` | `#7D8B7A` / `#A7B2A5` | het takje |
+| `--ink` | `#22406B` | de zeilboot |
+
+Fonts: Playfair Display (koppen) en Cormorant Garamond (tekst), via Google Fonts.
 
 ## Bron van de inhoud
 
@@ -46,8 +66,7 @@ daarvan afwijken, volgt de site **de kaarten** (die zijn nieuwer):
 - "taart & bubbels" in plaats van "taart & champagne";
 - zondag: "koffie & Fries ontbijt" vanaf 10.00 uur (de eindtijd 13.00 uur komt uit de docx);
 - aanspreekvorm "je/jou" in plaats van "jullie";
-- domein **myrthewisse.nl** (niet myrtheenwisse.nl).
+- domein myrthewisse.nl.
 
-Alleen in de docx en dus alleen daaruit overgenomen: de bus van 01.00 uur naar
-Van der Valk Sneek, het hoofdstuk Overnachten en de RSVP-lijst.
-De ceremoniemeesters en het citaat van Grote Panda & Kleine Draak komen van de kaarten.
+Alleen uit de docx: de bus van 01.00 uur, het hoofdstuk Overnachten en de RSVP-lijst.
+De ceremoniemeesters komen van de kaart.
