@@ -51,10 +51,28 @@ Aanpassen in `style.css` onder `:root`. De waarden zijn uit de kaarten gehaald:
 | `--navy-deep` | `#0A2C63` | namen op de voorpagina |
 | `--purple` | `#6B5590` | lopende tekst |
 | `--purple-soft` | `#8C7FA5` | tijden, labels |
-| `--sage` / `--sage-light` | `#7D8B7A` / `#A7B2A5` | het takje |
-| `--ink` | `#22406B` | de zeilboot |
+| `--sage` | `#7D8B7A` | onderstrepingen, focusrand |
 
 Fonts: Playfair Display (koppen) en Cormorant Garamond (tekst), via Google Fonts.
+
+## Beeld
+
+In `imgs/` staan de originelen én de versies die de site gebruikt:
+
+| Gebruikt | Origineel | Waar |
+|---|---|---|
+| `boot.png` | `boat.png` | voorpagina |
+| `takje.png` | `laurier_point_right.png` | onder elke paginatitel |
+| `takje-klein.png` | `laurier_point_left.png` | onder de namen, en boven de opmerking bij het programma |
+| `takje-hart.png` | `hearth_laurier.png` | afsluiting van de RSVP-pagina |
+| `broerekerk.jpg` | `boerenkerk.jpeg` | locatiekaart |
+| `pollepleats.jpg` | `polleplaats.jpeg` | locatiekaart |
+
+De tekeningen hadden het papier van de kaart als vlakke achtergrond; in de gebruikte
+versies is die weggehaald (transparant) en is de rand strak bijgesneden, zodat ze
+op de achtergrond van de site passen. Vervang je een tekening, doe dat dan ook —
+anders zie je een lichte rechthoek om de illustratie.
+De foto's zijn verkleind naar max 1000px.
 
 ## Bron van de inhoud
 

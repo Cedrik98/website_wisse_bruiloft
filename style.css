@@ -9,11 +9,9 @@
   --paper-soft:   #FBF7F4;   /* iets lichter vlak */
   --navy:         #0B4A85;   /* koppen */
   --navy-deep:    #0A2C63;   /* namen op de voorpagina */
-  --ink:          #22406B;   /* illustraties */
   --purple:       #6B5590;   /* lopende tekst */
   --purple-soft:  #8C7FA5;   /* tijden, labels, accenten */
-  --sage:         #7D8B7A;   /* takje: steel */
-  --sage-light:   #A7B2A5;   /* takje: blad */
+  --sage:         #7D8B7A;   /* groen van de takjes: onderstrepingen */
   --line:         rgba(107, 85, 144, .2);
 
   --serif-display: "Playfair Display", "Iowan Old Style", Georgia, serif;
@@ -129,10 +127,9 @@ strong { color: var(--navy); font-weight: 600; }
 }
 
 .hero__leaf {
-  width: 3.4rem;
-  height: 1.5rem;
-  margin: clamp(1rem, 3vh, 1.7rem) 0 clamp(1.1rem, 3vh, 1.9rem);
-  color: var(--navy-deep);
+  width: 6.5rem;
+  height: auto;
+  margin: clamp(.8rem, 2.5vh, 1.4rem) 0 clamp(1.1rem, 3vh, 1.9rem);
 }
 
 .hero__date {
@@ -161,9 +158,9 @@ strong { color: var(--navy); font-weight: 600; }
 }
 
 .hero__boat {
-  width: min(100%, 40rem);
+  width: min(100%, 27rem);
   height: auto;
-  margin: clamp(1.2rem, 5vh, 2.8rem) 0 clamp(1.5rem, 5vh, 3rem);
+  margin: clamp(1.2rem, 5vh, 2.6rem) 0 clamp(1.5rem, 5vh, 3rem);
 }
 
 /* ---------- Binnenpagina's ---------- */
@@ -171,13 +168,15 @@ strong { color: var(--navy); font-weight: 600; }
 .page {
   display: flex;
   flex-direction: column;
-  justify-content: center;      /* korte pagina's staan zo mooi in het midden */
+  justify-content: safe center; /* korte pagina's in het midden, lange gewoon vanaf boven */
   min-height: calc(100svh - var(--topbar));
   max-width: 62rem;
   margin: 0 auto;
   padding: clamp(3rem, 9vh, 5.5rem) var(--gutter) clamp(3.5rem, 10vh, 6rem);
   text-align: center;
 }
+
+.page > * { min-width: 0; }   /* zodat brede blokken op mobiel mogen krimpen */
 
 .page__head { margin-bottom: clamp(2rem, 5vh, 3rem); }
 
@@ -197,12 +196,22 @@ strong { color: var(--navy); font-weight: 600; }
   color: var(--navy);
 }
 
+/* de takjes van de trouwkaart */
 .divider {
   display: block;
-  width: 9rem;
-  height: 1.9rem;
-  margin: 1.3rem auto 0;
+  width: 9.5rem;
+  height: auto;
+  margin: 1.2rem auto 0;
 }
+
+.ornament {
+  display: block;
+  width: 7rem;
+  height: auto;
+  margin: clamp(2.5rem, 6vh, 3.5rem) auto 0;
+}
+
+.ornament--end { width: 8.5rem; margin-top: clamp(3rem, 7vh, 4rem); }
 
 .page__kicker {
   margin: 1.4rem 0 0;
@@ -312,9 +321,7 @@ strong { color: var(--navy); font-weight: 600; }
 
 .note {
   max-width: 32rem;
-  margin: 3rem auto 0;
-  padding-top: 1.7rem;
-  border-top: 1px solid var(--line);
+  margin: 1.6rem auto 0;   /* het takje erboven is de scheiding */
   font-style: italic;
   font-size: .96em;
   color: var(--purple-soft);
@@ -325,7 +332,7 @@ strong { color: var(--navy); font-weight: 600; }
 .cards {
   display: grid;
   gap: clamp(1.5rem, 3vw, 2.2rem);
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
   max-width: 44rem;
   margin: 0 auto;
 }
@@ -337,6 +344,23 @@ strong { color: var(--navy); font-weight: 600; }
   background: var(--paper-soft);
   border: 1px solid var(--line);
 }
+
+/* kaart met foto: beeld vult de bovenkant, tekst eronder */
+.card--place { padding: 0; overflow: hidden; }
+
+.card__photo {
+  display: block;
+  width: 100%;
+  height: auto;          /* anders wint het height-attribuut van de img */
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  filter: saturate(.92);
+}
+
+/* de kerkfoto staat rechtop; iets hoger uitsnijden houdt het raam in beeld */
+.card__photo--kerk { object-position: center 62%; }
+
+.card__body { padding: clamp(1.5rem, 3vw, 2rem); }
 
 .card__title {
   margin: 0 0 .35rem;
