@@ -413,6 +413,63 @@ em { font-style: italic; }
   border-radius: 50%;
 }
 
+/* ---------- Ceremoniemeesters ---------- */
+
+.hosts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.8rem 0;
+  max-width: 30rem;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+.hosts li {
+  display: grid;
+  gap: .15rem;
+  padding: 0 1.4rem;
+}
+
+.hosts li:nth-child(even) { border-left: 1px solid var(--line); }
+
+.hosts__name {
+  font-family: var(--serif-display);
+  font-size: 1.12rem;
+  color: var(--navy-warm);
+}
+
+.hosts .link {
+  justify-self: center;
+  font-size: .98rem;
+  letter-spacing: .04em;
+}
+
+@media (max-width: 30rem) {
+  .hosts { grid-template-columns: 1fr; gap: 1.4rem; }
+  .hosts li:nth-child(even) { border-left: 0; }
+}
+
+/* ---------- Citaat ---------- */
+
+.quote {
+  padding: clamp(4rem, 11vh, 7rem) var(--gutter);
+  text-align: center;
+}
+
+.quote blockquote {
+  max-width: 30rem;
+  margin: 0 auto;
+  font-family: var(--serif-display);
+  font-size: clamp(1.08rem, 2.6vw, 1.3rem);
+  font-style: italic;
+  line-height: 1.85;
+  color: var(--navy-warm);
+}
+
+.quote p { margin: 0 0 1.1em; }
+.quote p:last-child { margin-bottom: 0; }
+
 /* ---------- RSVP-formulier ---------- */
 
 .rsvp {

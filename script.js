@@ -6,7 +6,7 @@
    ========================================================= */
 
 const CONFIG = {
-  rsvpEmail: 'rsvp@myrtheenwisse.nl', // <-- vul hier jullie eigen mailadres in
+  rsvpEmail: 'rsvp@myrthewisse.nl', // <-- vul hier je eigen mailadres in
   rsvpDeadline: '',                   // <-- bijv. '1 februari 2027' (leeg = toont [datum])
 };
 
@@ -60,7 +60,7 @@ if (sections.length && 'IntersectionObserver' in window) {
 /* ---------- Zachte fade-in per sectie ---------- */
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const revealables = document.querySelectorAll('.section, .footer');
+const revealables = document.querySelectorAll('.section, .quote, .footer');
 
 if (!reduceMotion && 'IntersectionObserver' in window) {
   const revealer = new IntersectionObserver(
@@ -101,7 +101,7 @@ if (form) {
       'Aanwezig: ' + komt,
       'Aantal personen: ' + (data.get('personen') || '-'),
       'Bus naar Van der Valk Sneek: ' + (data.get('bus') ? 'ja' : 'nee'),
-      'Zondag koffie & Fries lekkers: ' + (data.get('zondag') ? 'ja' : 'nee'),
+      'Zondag koffie & Fries ontbijt: ' + (data.get('zondag') ? 'ja' : 'nee'),
       'Dieetwensen/allergieën: ' + ((data.get('dieet') || '').trim() || '-'),
       '',
       (data.get('bericht') || '').trim(),

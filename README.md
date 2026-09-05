@@ -1,6 +1,6 @@
 # Myrthe & Wisse — 27 maart 2027
 
-Statische one-page website (myrtheenwisse.nl) met alle info uit *Informatie website.docx*,
+Statische one-page website (myrthewisse.nl) met alle info uit *Informatie website.docx*,
 in de stijl van de trouwkaart: warm gebroken wit papier, donkerblauwe inkt, zacht eucalyptusgroen.
 
 ## Bestanden
@@ -19,7 +19,7 @@ online zetten is een kwestie van de drie bestanden uploaden (of via GitHub Pages
 In `script.js`, bovenaan bij `CONFIG`:
 
 ```js
-rsvpEmail:    'rsvp@myrtheenwisse.nl', // eigen mailadres
+rsvpEmail:    'rsvp@myrthewisse.nl', // eigen mailadres
 rsvpDeadline: '',                      // bijv. '1 februari 2027'
 ```
 
@@ -36,9 +36,18 @@ Aanpassen in `style.css` onder `:root`:
 · `--sage #7D8B7A` · `--lavender #A59AB2`.
 Fonts: Playfair Display (titels) en Cormorant Garamond (tekst), via Google Fonts.
 
-## Let op: tijden
+## Bron van de inhoud
 
-De site volgt de tijden uit *Informatie website.docx*:
-13.30 / 14.00 / 14.30 · 16.00 aperitivo · 17.30 diner · 20.30 feest · 01.00 bus.
-Op de kaart in `reference_img/` staan andere tijden (15.00 taart, 16.30 aperitivo, 18.30 diner & feest).
-Even checken welke versie klopt.
+De teksten komen uit *Informatie website.docx*; waar de kaarten in `reference_img/`
+daarvan afwijken, volgt de site **de kaarten** (die zijn nieuwer):
+
+- tijden: 13.30 welkom · 14.00 ceremonie · 15.00 taart & bubbels · 16.00 uitzwaaien ·
+  16.30 aperitivo · 18.30 diner & feest · 01.00 bus (docx had 14.30 / 16.00 / 17.30 / 20.30);
+- "taart & bubbels" in plaats van "taart & champagne";
+- zondag: "koffie & Fries ontbijt" vanaf 10.00 uur (de eindtijd 13.00 uur komt uit de docx);
+- aanspreekvorm "je/jou" in plaats van "jullie";
+- domein **myrthewisse.nl** (niet myrtheenwisse.nl).
+
+Alleen in de docx en dus alleen daaruit overgenomen: de bus van 01.00 uur naar
+Van der Valk Sneek, het hoofdstuk Overnachten en de RSVP-lijst.
+De ceremoniemeesters en het citaat van Grote Panda & Kleine Draak komen van de kaarten.
