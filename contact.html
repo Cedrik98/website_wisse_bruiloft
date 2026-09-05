@@ -15,14 +15,14 @@
 
 <header class="topbar">
   <a class="topbar__names" href="index.html">Myrthe &amp; Wisse</a>
-  <nav class="topbar__nav" aria-label="Hoofdmenu">
+  <button class="topbar__knop" type="button" aria-expanded="false" aria-controls="hoofdmenu">Menu</button>
+  <nav class="topbar__nav" id="hoofdmenu" aria-label="Hoofdmenu">
       <a href="index.html">Welkom</a>
       <a href="programma.html">Programma</a>
       <a href="dresscode.html">Dresscode</a>
       <a href="locaties.html">Locaties</a>
       <a href="vervoer.html">Vervoer</a>
       <a href="overnachten.html">Overnachten</a>
-      <a href="zondag.html">Zondag</a>
       <a href="contact.html" aria-current="page">Contact</a>
       <a href="rsvp.html">RSVP</a>
   </nav>
@@ -31,7 +31,7 @@
 <main class="page">
   <div class="page__head">
     <h1 class="page__title">Ceremoniemeesters</h1>
-    <img class="divider" src="imgs/takje.png" width="243" height="59" alt="" aria-hidden="true">
+    <img class="divider" src="imgs/takje.png" width="247" height="59" alt="" aria-hidden="true">
   </div>
 
   <p class="page__intro">Voor al je vragen kun je terecht bij onze ceremoniemeesters:</p>
@@ -53,11 +53,14 @@
     </div>
   </div>
 
+  <img class="ornament ornament--end" src="imgs/takje-hart.png" width="172" height="47" alt="" aria-hidden="true">
+
 
     <nav class="pager" aria-label="Volgende pagina">
       <a href="rsvp.html">RSVP <span aria-hidden="true">&rarr;</span></a>
     </nav>
 </main>
 
+<script src="script.js"></script>
 </body>
 </html>

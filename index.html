@@ -13,16 +13,16 @@
 </head>
 <body>
 
-<header class="topbar">
+<header class="topbar topbar--hero">
   <a class="topbar__names" href="index.html">Myrthe &amp; Wisse</a>
-  <nav class="topbar__nav" aria-label="Hoofdmenu">
+  <button class="topbar__knop" type="button" aria-expanded="false" aria-controls="hoofdmenu">Menu</button>
+  <nav class="topbar__nav" id="hoofdmenu" aria-label="Hoofdmenu">
       <a href="index.html" aria-current="page">Welkom</a>
       <a href="programma.html">Programma</a>
       <a href="dresscode.html">Dresscode</a>
       <a href="locaties.html">Locaties</a>
       <a href="vervoer.html">Vervoer</a>
       <a href="overnachten.html">Overnachten</a>
-      <a href="zondag.html">Zondag</a>
       <a href="contact.html">Contact</a>
       <a href="rsvp.html">RSVP</a>
   </nav>
@@ -30,11 +30,18 @@
 
 <main class="hero">
   <h1 class="hero__names">Myrthe &amp; Wisse</h1>
-  <img class="hero__leaf" src="imgs/takje-klein.png" width="179" height="52" alt="" aria-hidden="true">
+  <img class="hero__leaf" src="imgs/takje-klein.png" width="192" height="52" alt="" aria-hidden="true">
   <p class="hero__date">27 maart 2027</p>
   <span class="rule" aria-hidden="true"></span>
   <p class="hero__place">Friesland</p>
-  <img class="hero__boat" src="imgs/boot.png" width="649" height="220" alt="Aquarel van een zeilboot op het Friese water">
+  <div class="hero__stage" role="img" aria-label="Illustratie van een zeilboot, afgewisseld met foto&#39;s van Myrthe en Wisse op het water">
+    <img class="hero__slide hero__slide--boat is-active" src="imgs/boot.png" width="653" height="220" alt="">
+    <img class="hero__slide" src="imgs/samen-op-het-water.jpg" width="1200" height="902" alt="" loading="lazy" decoding="async">
+    <img class="hero__slide" src="imgs/samen-zeilen.jpg" width="1200" height="902" alt="" loading="lazy" decoding="async">
+    <img class="hero__slide" src="imgs/zonsondergang.jpg" width="1200" height="900" alt="" loading="lazy" decoding="async">
+    <img class="hero__slide" src="imgs/aan-boord.jpg" width="879" height="1200" alt="" loading="lazy" decoding="async">
+    <img class="hero__slide" src="imgs/surfles.jpg" width="1200" height="900" alt="" loading="lazy" decoding="async">
+  </div>
 
   <div class="prose">
     <p class="lead">Op 27 maart 2027 geven wij elkaar het jawoord. We kijken er enorm naar uit om deze bijzondere dag samen met jou te vieren!</p>
@@ -46,5 +53,6 @@
     </nav>
 </main>
 
+<script src="script.js"></script>
 </body>
 </html>

@@ -15,14 +15,14 @@
 
 <header class="topbar">
   <a class="topbar__names" href="index.html">Myrthe &amp; Wisse</a>
-  <nav class="topbar__nav" aria-label="Hoofdmenu">
+  <button class="topbar__knop" type="button" aria-expanded="false" aria-controls="hoofdmenu">Menu</button>
+  <nav class="topbar__nav" id="hoofdmenu" aria-label="Hoofdmenu">
       <a href="index.html">Welkom</a>
       <a href="programma.html">Programma</a>
       <a href="dresscode.html">Dresscode</a>
       <a href="locaties.html">Locaties</a>
       <a href="vervoer.html">Vervoer</a>
       <a href="overnachten.html">Overnachten</a>
-      <a href="zondag.html">Zondag</a>
       <a href="contact.html">Contact</a>
       <a href="rsvp.html" aria-current="page">RSVP</a>
   </nav>
@@ -31,69 +31,65 @@
 <main class="page">
   <div class="page__head">
     <h1 class="page__title">RSVP</h1>
-    <img class="divider" src="imgs/takje.png" width="243" height="59" alt="" aria-hidden="true">
+    <img class="divider" src="imgs/takje-hart.png" width="172" height="47" alt="" aria-hidden="true">
   </div>
 
-  <p class="page__intro">Laat ons v&oacute;&oacute;r <strong data-rsvp-deadline>[datum]</strong> weten:</p>
-
-  <ul class="checklist">
-    <li>of je erbij bent</li>
-    <li>met hoeveel personen je komt</li>
-    <li>of je gebruik wilt maken van de bus</li>
-    <li>of je zondag aansluit voor koffie &amp; Fries ontbijt</li>
-    <li>eventuele dieetwensen of allergie&euml;n</li>
-  </ul>
+  <p class="page__intro">Laat ons v&oacute;&oacute;r <strong data-rsvp-deadline>[datum]</strong> weten of je erbij bent.</p>
 
   <form class="rsvp" id="rsvp-form" novalidate>
-    <div class="field">
-      <label for="naam">Naam</label>
-      <input id="naam" name="naam" type="text" autocomplete="name" required>
-    </div>
+    <div id="gasten"></div>
 
-    <div class="field">
-      <label for="email">E-mailadres</label>
-      <input id="email" name="email" type="email" autocomplete="email" required>
-    </div>
+    <template id="gast-sjabloon">
+      <fieldset class="gast">
+        <legend class="gast__titel">Naam</legend>
+        <button class="gast__weg" type="button" hidden>Verwijderen</button>
 
-    <fieldset class="field">
-      <legend>Ben je erbij?</legend>
-      <div class="choices">
-        <label class="choice"><input type="radio" name="aanwezig" value="Ja, ik ben erbij" checked> Ja, ik ben erbij</label>
-        <label class="choice"><input type="radio" name="aanwezig" value="Helaas, ik kan er niet bij zijn"> Helaas, ik kan er niet bij zijn</label>
-      </div>
-    </fieldset>
+        <div class="field">
+          <label for="naam-__n__">Naam</label>
+          <input id="naam-__n__" name="naam-__n__" type="text" autocomplete="name" data-veld="naam" required>
+        </div>
 
-    <div class="field field--half">
-      <label for="personen">Aantal personen</label>
-      <input id="personen" name="personen" type="number" min="1" max="10" value="1" inputmode="numeric">
-    </div>
+        <fieldset class="field">
+          <legend>Kom je?</legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="komt-__n__" value="ja" data-veld="komt" checked> Ja, ik ben erbij</label>
+            <label class="choice"><input type="radio" name="komt-__n__" value="nee" data-veld="komt"> Nee, helaas niet</label>
+          </div>
+        </fieldset>
 
-    <fieldset class="field">
-      <legend>Nog even dit</legend>
-      <div class="choices">
-        <label class="choice"><input type="checkbox" name="bus" value="ja"> Ik maak graag gebruik van de bus naar Van der Valk Sneek</label>
-        <label class="choice"><input type="checkbox" name="zondag" value="ja"> Ik sluit zondag aan voor koffie &amp; Fries ontbijt</label>
-      </div>
-    </fieldset>
+        <div class="field">
+          <label for="allergie-__n__">Allergie&euml;n</label>
+          <input id="allergie-__n__" name="allergie-__n__" type="text" data-veld="allergie" placeholder="Geen">
+        </div>
 
-    <div class="field">
-      <label for="dieet">Dieetwensen of allergie&euml;n</label>
-      <textarea id="dieet" name="dieet" rows="3"></textarea>
-    </div>
+        <fieldset class="field">
+          <legend>Eet je vegetarisch?</legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="vega-__n__" value="nee" data-veld="vega" checked> Nee</label>
+            <label class="choice"><input type="radio" name="vega-__n__" value="ja" data-veld="vega"> Ja</label>
+          </div>
+        </fieldset>
 
-    <div class="field">
-      <label for="bericht">Lief bericht (optioneel)</label>
-      <textarea id="bericht" name="bericht" rows="3"></textarea>
-    </div>
+        <fieldset class="field">
+          <legend>Bus naar Van der Valk Sneek</legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="bus-__n__" value="nee" data-veld="bus" checked> Nee, ik regel het zelf</label>
+            <label class="choice"><input type="radio" name="bus-__n__" value="ja" data-veld="bus"> Ja, graag</label>
+          </div>
+        </fieldset>
+      </fieldset>
+    </template>
 
+    <button class="button button--stil" type="button" id="gast-erbij">Iemand meenemen</button>
     <button class="button" type="submit">Verstuur RSVP</button>
+
     <p class="rsvp__fallback">
       Liever gewoon een mailtje of appje? Dat mag natuurlijk ook &mdash;
       <a class="link" href="mailto:rsvp@myrthewisse.nl" data-rsvp-mail>rsvp@myrthewisse.nl</a>.
     </p>
   </form>
 
-  <img class="ornament ornament--end" src="imgs/takje-hart.png" width="168" height="47" alt="" aria-hidden="true">
+  <img class="ornament ornament--end" src="imgs/takje-hart.png" width="172" height="47" alt="" aria-hidden="true">
 
 </main>
 

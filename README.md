@@ -9,18 +9,22 @@ Elk onderdeel is een eigen pagina; er wordt niet gescrold door alles heen.
 | Bestand | Pagina |
 |---|---|
 | `index.html` | Voorpagina: namen, datum, zeilboot en welkomsttekst |
-| `programma.html` | Programma van zaterdag |
+| `programma.html` | Programma van zaterdag, met de zondagochtend als afsluiting |
 | `dresscode.html` | Dresscode |
 | `locaties.html` | Broerekerk en De Pollepleats, met kaartlinks |
 | `vervoer.html` | Vervoer en de bus naar Sneek |
 | `overnachten.html` | Overnachtingsmogelijkheden |
-| `zondag.html` | Zondag 28 maart |
 | `contact.html` | Ceremoniemeesters |
 | `rsvp.html` | RSVP-formulier |
 
-Gedeeld: `style.css` (kleuren en typografie) en `script.js` (alleen voor het RSVP-formulier).
+Gedeeld: `style.css` (kleuren en typografie) en `script.js` (menu, diavoorstelling, RSVP).
 Het menu bovenaan staat in elke pagina; voeg je een pagina toe, dan moet dat rijtje
 in elk bestand hetzelfde blijven. Onderaan elke pagina staat een link naar de volgende.
+De menubalk heeft drie standen: boven 84rem (1344px) staat hij ruim, tussen 68 en
+84rem wordt hij compacter zodat hij op één regel blijft, en onder 68rem (1088px)
+klapt hij samen achter een knop "Menu". Let op: browserzoom telt mee — op 140% zoom
+is een venster van 1853px nog maar 1280px "breed" voor de opmaak, en dan geldt de
+compacte stand. Zonder die tussenstand brak de balk daar in twee regels.
 
 Geen build-stap, geen dependencies. Openen kan met een dubbelklik op `index.html`;
 online komt het via GitHub Pages (branch `main`, root, met `CNAME` op myrthewisse.nl).
@@ -32,13 +36,47 @@ In `script.js`, bovenaan bij `CONFIG`:
 ```js
 rsvpEmail:    'rsvp@myrthewisse.nl', // eigen mailadres
 rsvpDeadline: '',                    // bijv. '1 februari 2027'
+rsvpEndpoint: '',                    // adres van het Apps Script, zie hieronder
 ```
 
 Zolang `rsvpDeadline` leeg is, staat er `[datum]` op de RSVP-pagina.
 
-Het formulier werkt zonder server: bij versturen opent de mailapp met een ingevulde mail.
-Wil je de antwoorden liever automatisch binnenkrijgen, vervang dan het submit-blok in
-`script.js` door een POST naar bijvoorbeeld Formspree, Basin of een Google Form.
+## RSVP: de antwoorden in een spreadsheet
+
+Het formulier vraagt per persoon vier dingen: kom je, allergieën, vegetarisch, en de bus
+van en naar Van der Valk. Met de knop "Iemand meenemen" komt er een tweede blok bij met
+dezelfde velden, zodat een +1 met naam en al wordt doorgegeven. Elke persoon wordt
+één regel.
+
+Zolang `rsvpEndpoint` leeg is, opent bij versturen de mailapp met een ingevulde mail —
+dat werkt altijd, maar je typt de antwoorden zelf over. Wil je ze direct in een
+spreadsheet, zet dan één keer dit op:
+
+1. Maak een Google Spreadsheet met als kopregel:
+   `Ingezonden · Naam · Komt · Allergieën · Vegetarisch · Bus`.
+2. Kies **Extensies → Apps Script** en plak:
+
+   ```js
+   function doPost(e) {
+     const blad = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+     const data = JSON.parse(e.postData.contents);
+     data.gasten.forEach(function (g) {
+       blad.appendRow([new Date(data.ingezonden), g.naam, g.komt,
+                       g.allergieen, g.vegetarisch, g.bus]);
+     });
+     return ContentService.createTextOutput('ok');
+   }
+   ```
+
+3. **Implementeren → Nieuwe implementatie → Web-app**, uitvoeren als jezelf,
+   toegang voor "Iedereen". Kopieer het webadres dat je krijgt.
+4. Plak dat adres in `rsvpEndpoint` in `script.js`.
+
+Elke aanmelding komt er dan als losse regels per persoon in te staan; die sheet
+download je als Excel via **Bestand → Downloaden → Microsoft Excel**.
+Lukt het versturen niet (geen verbinding, of de implementatie staat verkeerd),
+dan valt het formulier vanzelf terug op de mail, dus je raakt nooit een aanmelding kwijt.
+Test het na het instellen één keer met je eigen naam.
 
 ## Kleuren & fonts
 
@@ -55,6 +93,40 @@ Aanpassen in `style.css` onder `:root`. De waarden zijn uit de kaarten gehaald:
 
 Fonts: Playfair Display (koppen) en Cormorant Garamond (tekst), via Google Fonts.
 
+### Lettergroottes: één knop
+
+Alle maten hangen aan de basisregel in `body`:
+
+```css
+font-size: clamp(1.25rem, .4vw + 1.15rem, 1.6rem);   /* 20px → 25,6px */
+```
+
+Alles daaronder staat in `em`, dus als een breuk van die basis: labels en kopjes
+in kapitalen `.72em`, knoppen `.78em`, plaatsnamen in het programma `.82em`,
+kaarttitels `1.2em`, de introzin op de voorpagina `1.12em`. Wil je de site groter
+of kleiner, verander dan alleen die ene regel — alles schuift mee en de verhoudingen
+blijven gelijk.
+
+Alleen de zeven display-maten hebben een eigen `clamp()`: de namen op de voorpagina,
+de datum, "Friesland", de paginatitels en de twee `.statement`-regels. Die staan
+bewust los omdat ze sneller mee moeten groeien met de schermbreedte.
+
+Zet nooit een vaste `rem`-maat in een onderdeel: dat was precies waarom pagina's
+eerder onderling verschilden.
+
+### Kolombreedtes
+
+Dezelfde valkuil geldt voor breedtes. De maten staan bij elkaar bovenin:
+`--measure` (44rem) is de leeskolom voor alle lopende tekst, `.page` (74rem) is
+de buitenmaat van een pagina, en de kaartrasters zitten daartussen
+(`.cards` 64rem, `.cards--three` 74rem).
+
+Waarom dat uitmaakt: bij dezelfde lettergrootte bepaalt de breedte van het blok
+hoe lang de regels zijn, en dáár zie je verschil tussen pagina's. Ter controle,
+gemeten op een scherm van 1440px: vervoer 66 tekens per regel, contact 60,
+RSVP 61, locaties 46, programma 36, overnachten 32. Blijf in die bandbreedte;
+een blok dat er ver buiten valt, valt op als "een andere pagina".
+
 ## Beeld
 
 In `imgs/` staan de originelen én de versies die de site gebruikt:
@@ -64,14 +136,31 @@ In `imgs/` staan de originelen én de versies die de site gebruikt:
 | `boot.png` | `boat.png` | voorpagina |
 | `takje.png` | `laurier_point_right.png` | onder elke paginatitel |
 | `takje-klein.png` | `laurier_point_left.png` | onder de namen, en boven de opmerking bij het programma |
-| `takje-hart.png` | `hearth_laurier.png` | afsluiting van de RSVP-pagina |
+| `takje-hart.png` | `hearth_laurier.png` | onder de titel op de RSVP-pagina, en als afsluiting bij de ceremoniemeesters |
 | `broerekerk.jpg` | `boerenkerk.jpeg` | locatiekaart |
 | `pollepleats.jpg` | `polleplaats.jpeg` | locatiekaart |
+| `samen-op-het-water.jpg`, `samen-zeilen.jpg`, `zonsondergang.jpg`, `aan-boord.jpg`, `surfles.jpg` | de WhatsApp-foto's | diavoorstelling op de voorpagina |
+
+Op de voorpagina wisselen de zeilboot en die vijf foto's elkaar af: elke 5 seconden
+een zachte overvloeier, in de volgorde waarin ze in `index.html` staan. Een foto
+toevoegen of weghalen is een `<img class="hero__slide">` erbij of eruit; de tekening
+staat als eerste en is dus ook wat je ziet zonder JavaScript. Wie "verminder
+beweging" aan heeft staan, ziet alleen de tekening.
+
+De menubalk staat op de voorpagina verborgen en schuift in beeld zodra je met de muis
+naar de bovenrand gaat of een klein stukje scrollt. Op de andere pagina's staat hij
+gewoon vast bovenaan.
 
 De tekeningen hadden het papier van de kaart als vlakke achtergrond; in de gebruikte
 versies is die weggehaald (transparant) en is de rand strak bijgesneden, zodat ze
 op de achtergrond van de site passen. Vervang je een tekening, doe dat dan ook —
 anders zie je een lichte rechthoek om de illustratie.
+
+De takjes zijn daarna optisch gecentreerd: er staat wat lege ruimte aan één kant,
+zodat het zwaartepunt van de tekening in het midden valt en niet het kader.
+Zonder die correctie hangt bijvoorbeeld `takje-klein.png` zichtbaar links,
+omdat de bladeren links zitten en de kale steel naar rechts uitsteekt.
+
 De foto's zijn verkleind naar max 1000px.
 
 ## Bron van de inhoud

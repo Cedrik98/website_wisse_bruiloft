@@ -15,14 +15,14 @@
 
 <header class="topbar">
   <a class="topbar__names" href="index.html">Myrthe &amp; Wisse</a>
-  <nav class="topbar__nav" aria-label="Hoofdmenu">
+  <button class="topbar__knop" type="button" aria-expanded="false" aria-controls="hoofdmenu">Menu</button>
+  <nav class="topbar__nav" id="hoofdmenu" aria-label="Hoofdmenu">
       <a href="index.html">Welkom</a>
       <a href="programma.html">Programma</a>
       <a href="dresscode.html">Dresscode</a>
       <a href="locaties.html" aria-current="page">Locaties</a>
       <a href="vervoer.html">Vervoer</a>
       <a href="overnachten.html">Overnachten</a>
-      <a href="zondag.html">Zondag</a>
       <a href="contact.html">Contact</a>
       <a href="rsvp.html">RSVP</a>
   </nav>
@@ -31,7 +31,7 @@
 <main class="page">
   <div class="page__head">
     <h1 class="page__title">Locaties</h1>
-    <img class="divider" src="imgs/takje.png" width="243" height="59" alt="" aria-hidden="true">
+    <img class="divider" src="imgs/takje.png" width="247" height="59" alt="" aria-hidden="true">
   </div>
 
   <div class="cards">
@@ -42,6 +42,7 @@
         <h2 class="card__title">Broerekerk</h2>
         <p class="card__meta">Ceremonie</p>
         <address>Broereplein 9<br>8701 JC Bolsward</address>
+        <p class="card__note">In de kerk kan het fris zijn. Neem eventueel een vestje mee.</p>
         <a class="link" href="https://www.google.com/maps/search/?api=1&amp;query=Broerekerk%2C+Broereplein+9%2C+8701+JC+Bolsward" target="_blank" rel="noopener">Bekijk op de kaart</a>
       </div>
     </article>
@@ -64,5 +65,6 @@
     </nav>
 </main>
 
+<script src="script.js"></script>
 </body>
 </html>

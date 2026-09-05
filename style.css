@@ -17,9 +17,9 @@
   --serif-display: "Playfair Display", "Iowan Old Style", Georgia, serif;
   --serif-text:    "Cormorant Garamond", "EB Garamond", Georgia, serif;
 
-  --measure: 34rem;
+  --measure: 44rem;
   --gutter: clamp(1.25rem, 5vw, 3rem);
-  --topbar: 4.4rem;
+  --topbar: 5rem;
 
   color-scheme: light;
 }
@@ -34,8 +34,8 @@ body {
   background-image: radial-gradient(120% 80% at 50% 0%, rgba(255, 255, 255, .5), transparent 62%);
   color: var(--purple);
   font-family: var(--serif-text);
-  font-size: clamp(1.05rem, .55vw + .95rem, 1.24rem);
-  line-height: 1.75;
+  font-size: clamp(1.25rem, .4vw + 1.15rem, 1.6rem);
+  line-height: 1.7;
   text-rendering: optimizeLegibility;
 }
 
@@ -53,7 +53,7 @@ strong { color: var(--navy); font-weight: 600; }
   justify-content: space-between;
   gap: 1.5rem 2rem;
   flex-wrap: wrap;
-  padding: .9rem var(--gutter);
+  padding: 1.15rem var(--gutter);
   background: rgba(247, 242, 238, .94);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
@@ -61,8 +61,8 @@ strong { color: var(--navy); font-weight: 600; }
 
 .topbar__names {
   font-family: var(--serif-display);
-  font-size: 1.05rem;
-  letter-spacing: .1em;
+  font-size: .95em;
+  letter-spacing: .06em;
   color: var(--navy-deep);
   text-decoration: none;
   white-space: nowrap;
@@ -76,9 +76,9 @@ strong { color: var(--navy); font-weight: 600; }
 
 .topbar__nav a {
   position: relative;
-  padding-bottom: .2rem;
-  font-size: .72rem;
-  letter-spacing: .2em;
+  padding-bottom: .25rem;
+  font-size: .75em;
+  letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--purple-soft);
   text-decoration: none;
@@ -101,9 +101,56 @@ strong { color: var(--navy); font-weight: 600; }
 .topbar__nav a:hover::after,
 .topbar__nav a[aria-current="page"]::after { transform: scaleX(1); }
 
-@media (max-width: 44rem) {
-  .topbar { justify-content: center; text-align: center; }
-  .topbar__nav { justify-content: center; }
+.topbar__knop {
+  display: none;
+  padding: .35rem .9rem;
+  font-family: var(--serif-text);
+  font-size: .75em;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--navy);
+  background: transparent;
+  border: 1px solid var(--line);
+  cursor: pointer;
+}
+
+/* tussenmaat (ook bij ingezoomd beeld): compacter, zodat de balk op één regel blijft */
+@media (max-width: 84rem) {
+  .topbar__nav { gap: .3rem clamp(.7rem, 1.6vw, 1.2rem); }
+  .topbar__nav a { font-size: .7em; letter-spacing: .08em; }
+  .topbar__names { font-size: .85em; }
+}
+
+@media (max-width: 68rem) {
+  .topbar { padding: .85rem var(--gutter); }
+  .topbar__knop { display: block; }
+
+  .topbar__nav {
+    display: none;
+    flex-basis: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: .9rem;
+    padding: 1.4rem 0 .4rem;
+  }
+
+  .topbar__nav.is-open { display: flex; }
+  .topbar__nav a { font-size: .85em; }
+}
+
+/* op de voorpagina schuift de balk pas in beeld bij hover of een klein stukje scrollen */
+.topbar--hero {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: transform .45s ease, opacity .45s ease;
+}
+
+.topbar--hero.is-visible { transform: none; opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .topbar--hero { transition: none; }
 }
 
 /* ---------- Voorpagina ---------- */
@@ -112,7 +159,7 @@ strong { color: var(--navy); font-weight: 600; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: calc(100svh - var(--topbar));
+  min-height: 100svh;   /* de balk zweeft erboven en neemt geen ruimte in */
   padding: clamp(2.5rem, 8vh, 5rem) var(--gutter) clamp(3rem, 8vh, 5rem);
   text-align: center;
 }
@@ -127,14 +174,14 @@ strong { color: var(--navy); font-weight: 600; }
 }
 
 .hero__leaf {
-  width: 6.5rem;
+  width: 7.5rem;
   height: auto;
   margin: clamp(.8rem, 2.5vh, 1.4rem) 0 clamp(1.1rem, 3vh, 1.9rem);
 }
 
 .hero__date {
   margin: 0;
-  font-size: clamp(1rem, 2.2vw, 1.3rem);
+  font-size: clamp(1.05rem, 2.2vw, 1.45rem);
   letter-spacing: .28em;
   text-indent: .28em;
   color: var(--navy);
@@ -157,26 +204,44 @@ strong { color: var(--navy); font-weight: 600; }
   color: var(--navy);
 }
 
-.hero__boat {
-  width: min(100%, 27rem);
-  height: auto;
-  margin: clamp(1.2rem, 5vh, 2.6rem) 0 clamp(1.5rem, 5vh, 3rem);
+/* boot en foto's wisselen elkaar rustig af */
+.hero__stage {
+  position: relative;
+  width: min(100%, 42rem);
+  aspect-ratio: 3 / 2;
+  margin: clamp(1rem, 4vh, 2.2rem) 0 clamp(1.5rem, 5vh, 3rem);
 }
+
+.hero__slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;   /* niets bijsnijden: ook de staande foto past heel in het kader */
+  opacity: 0;
+  transition: opacity 1.4s ease;
+  filter: saturate(.92);
+}
+
+.hero__slide.is-active { opacity: 1; }
+
+.hero__slide--boat { filter: none; }
 
 /* ---------- Binnenpagina's ---------- */
 
 .page {
   display: flex;
   flex-direction: column;
-  justify-content: safe center; /* korte pagina's in het midden, lange gewoon vanaf boven */
+  justify-content: flex-start;  /* elke pagina begint op dezelfde hoogte */
   min-height: calc(100svh - var(--topbar));
-  max-width: 62rem;
+  max-width: 74rem;
   margin: 0 auto;
   padding: clamp(3rem, 9vh, 5.5rem) var(--gutter) clamp(3.5rem, 10vh, 6rem);
   text-align: center;
 }
 
 .page > * { min-width: 0; }   /* zodat brede blokken op mobiel mogen krimpen */
+.page > :nth-last-child(2) { margin-bottom: clamp(3rem, 8vh, 4.5rem); }
 
 .page__head { margin-bottom: clamp(2rem, 5vh, 3rem); }
 
@@ -189,9 +254,9 @@ strong { color: var(--navy); font-weight: 600; }
   margin: 0;
   font-family: var(--serif-display);
   font-weight: 400;
-  font-size: clamp(1.5rem, 3.8vw, 2.2rem);
-  letter-spacing: .22em;
-  text-indent: .22em;
+  font-size: clamp(1.7rem, 4vw, 2.6rem);
+  letter-spacing: .2em;
+  text-indent: .2em;
   text-transform: uppercase;
   color: var(--navy);
 }
@@ -199,24 +264,25 @@ strong { color: var(--navy); font-weight: 600; }
 /* de takjes van de trouwkaart */
 .divider {
   display: block;
-  width: 9.5rem;
+  width: 11rem;
   height: auto;
-  margin: 1.2rem auto 0;
+  margin: 1.3rem auto 0;
 }
 
 .ornament {
   display: block;
-  width: 7rem;
+  width: 8rem;
   height: auto;
   margin: clamp(2.5rem, 6vh, 3.5rem) auto 0;
 }
 
-.ornament--end { width: 8.5rem; margin-top: clamp(3rem, 7vh, 4rem); }
+.ornament--end { width: 10rem; margin-top: clamp(3rem, 7vh, 4rem); }
+
 
 .page__kicker {
   margin: 1.4rem 0 0;
   font-style: italic;
-  font-size: 1.05rem;
+  font-size: 1em;
   letter-spacing: .1em;
   color: var(--purple-soft);
 }
@@ -239,7 +305,7 @@ strong { color: var(--navy); font-weight: 600; }
 .statement {
   margin: 0 0 .35em;
   font-family: var(--serif-display);
-  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-size: clamp(1.6rem, 4.2vw, 2.4rem);
   font-weight: 400;
   color: var(--navy);
 }
@@ -247,7 +313,7 @@ strong { color: var(--navy); font-weight: 600; }
 .statement--sub {
   margin-bottom: 0;
   font-family: var(--serif-text);
-  font-size: clamp(1.15rem, 3vw, 1.5rem);
+  font-size: clamp(1.25rem, 3vw, 1.7rem);
   font-style: italic;
   color: var(--purple);
 }
@@ -257,7 +323,7 @@ strong { color: var(--navy); font-weight: 600; }
 /* ---------- Programma ---------- */
 
 .schedule {
-  max-width: 30rem;
+  max-width: 42rem;
   margin-inline: auto;
   text-align: left;
 }
@@ -266,14 +332,17 @@ strong { color: var(--navy); font-weight: 600; }
   margin: 3rem 0 1.4rem;
   font-family: var(--serif-display);
   font-weight: 400;
-  font-size: clamp(.82rem, 2.2vw, .95rem);
-  letter-spacing: .2em;
+  font-size: .82em;
+  letter-spacing: .18em;
   text-transform: uppercase;
   color: var(--navy);
   text-align: center;
 }
 
 .schedule__place:first-child { margin-top: 0; }
+
+/* het zondagblok staat los onder het takje */
+.schedule + .ornament + .schedule .schedule__place { margin-top: 1.8rem; }
 
 .timeline {
   margin: 0;
@@ -283,8 +352,8 @@ strong { color: var(--navy); font-weight: 600; }
 
 .timeline li {
   display: grid;
-  grid-template-columns: 4.6rem 1fr;
-  gap: 1.6rem;
+  grid-template-columns: 5.2rem 1fr;
+  gap: 1.9rem;
   padding: .6rem 0;
 }
 
@@ -333,11 +402,11 @@ strong { color: var(--navy); font-weight: 600; }
   display: grid;
   gap: clamp(1.5rem, 3vw, 2.2rem);
   grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
-  max-width: 44rem;
+  max-width: 64rem;
   margin: 0 auto;
 }
 
-.cards--three { max-width: 60rem; }
+.cards--three { max-width: 74rem; }
 
 .card {
   padding: clamp(1.6rem, 3vw, 2.2rem);
@@ -366,15 +435,15 @@ strong { color: var(--navy); font-weight: 600; }
   margin: 0 0 .35rem;
   font-family: var(--serif-display);
   font-weight: 400;
-  font-size: 1.3rem;
-  letter-spacing: .04em;
+  font-size: 1.2em;
+  letter-spacing: .03em;
   color: var(--navy);
 }
 
 .card__meta {
   margin: 0 0 1rem;
-  font-size: .78rem;
-  letter-spacing: .18em;
+  font-size: .72em;
+  letter-spacing: .16em;
   text-transform: uppercase;
   color: var(--purple-soft);
 }
@@ -385,6 +454,14 @@ strong { color: var(--navy); font-weight: 600; }
   margin-bottom: 1.1rem;
   font-style: normal;
   line-height: 1.7;
+}
+
+.card__note {
+  margin: 0 0 1.1rem;
+  font-style: italic;
+  font-size: .93em;
+  line-height: 1.6;
+  color: var(--purple-soft);
 }
 
 .link {
@@ -403,7 +480,7 @@ strong { color: var(--navy); font-weight: 600; }
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(1.8rem, 4vh, 2.6rem) 0;
-  max-width: 32rem;
+  max-width: 48rem;
   margin: 0 auto;
 }
 
@@ -413,14 +490,14 @@ strong { color: var(--navy); font-weight: 600; }
 .hosts__name {
   margin: 0;
   font-family: var(--serif-display);
-  font-size: clamp(1.1rem, 2.6vw, 1.25rem);
+  font-size: 1.15em;
   color: var(--navy);
 }
 
 .hosts__tel {
   display: inline-block;
   margin-top: .2rem;
-  font-size: 1rem;
+  font-size: .95em;
   letter-spacing: .06em;
   color: var(--purple);
   text-decoration: none;
@@ -449,8 +526,8 @@ strong { color: var(--navy); font-weight: 600; }
 
 .rsvp {
   display: grid;
-  gap: 1.3rem;
-  max-width: 30rem;
+  gap: 1.4rem;
+  max-width: 46rem;
   margin: 0 auto;
   text-align: left;
 }
@@ -461,8 +538,8 @@ strong { color: var(--navy); font-weight: 600; }
 .field > label,
 .field > legend {
   padding: 0;
-  font-size: .72rem;
-  letter-spacing: .18em;
+  font-size: .72em;
+  letter-spacing: .16em;
   text-transform: uppercase;
   color: var(--purple-soft);
 }
@@ -476,7 +553,7 @@ textarea {
   width: 100%;
   padding: .65rem .8rem;
   font: inherit;
-  font-size: 1rem;
+  font-size: 1em;
   color: var(--purple);
   background: var(--paper-soft);
   border: 1px solid var(--line);
@@ -504,8 +581,8 @@ textarea { resize: vertical; }
 .choice {
   display: flex;
   align-items: flex-start;
-  gap: .6rem;
-  font-size: 1rem;
+  gap: .7rem;
+  font-size: 1em;
   line-height: 1.5;
   color: var(--purple);
   cursor: pointer;
@@ -518,8 +595,8 @@ textarea { resize: vertical; }
   margin-top: .6rem;
   padding: .85rem 2.4rem;
   font-family: var(--serif-text);
-  font-size: .8rem;
-  letter-spacing: .22em;
+  font-size: .78em;
+  letter-spacing: .18em;
   text-transform: uppercase;
   color: var(--paper);
   background: var(--navy);
@@ -530,9 +607,49 @@ textarea { resize: vertical; }
 
 .button:hover { background: transparent; color: var(--navy); }
 
+.button--stil {
+  color: var(--navy);
+  background: transparent;
+}
+
+.button--stil:hover { background: var(--navy); color: var(--paper); }
+
+/* ---------- RSVP: blok per gast ---------- */
+
+.gast {
+  display: grid;
+  gap: 1.2rem;
+  margin: 0 0 1.8rem;
+  padding: 1.6rem;
+  border: 1px solid var(--line);
+}
+
+.gast__titel {
+  padding: 0 .5rem;
+  margin-left: -.5rem;
+  font-family: var(--serif-display);
+  font-size: 1.05em;
+  color: var(--navy);
+}
+
+.gast__weg {
+  justify-self: start;
+  padding: 0;
+  font-family: var(--serif-text);
+  font-size: .82em;
+  font-style: italic;
+  color: var(--purple-soft);
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+}
+
+.gast__weg:hover { color: var(--navy); }
+
 .rsvp__fallback {
   margin: .4rem 0 0;
-  font-size: .95rem;
+  font-size: .9em;
   font-style: italic;
   color: var(--purple-soft);
 }
@@ -542,14 +659,14 @@ textarea { resize: vertical; }
   padding: .9rem 1.1rem;
   background: rgba(125, 139, 122, .12);
   border-left: 2px solid var(--sage);
-  font-size: .98rem;
+  font-size: .95em;
   color: var(--navy);
 }
 
 /* ---------- Volgende pagina ---------- */
 
 .pager {
-  margin-top: clamp(3rem, 8vh, 4.5rem);
+  margin-top: auto;      /* blijft onderaan hangen op korte pagina's */
   padding-top: 1.6rem;
   border-top: 1px solid var(--line);
 }
@@ -560,8 +677,8 @@ textarea { resize: vertical; }
 }
 
 .pager a {
-  font-size: .74rem;
-  letter-spacing: .22em;
+  font-size: .78em;
+  letter-spacing: .18em;
   text-transform: uppercase;
   color: var(--navy);
   text-decoration: none;

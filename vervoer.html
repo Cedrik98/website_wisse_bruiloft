@@ -15,14 +15,14 @@
 
 <header class="topbar">
   <a class="topbar__names" href="index.html">Myrthe &amp; Wisse</a>
-  <nav class="topbar__nav" aria-label="Hoofdmenu">
+  <button class="topbar__knop" type="button" aria-expanded="false" aria-controls="hoofdmenu">Menu</button>
+  <nav class="topbar__nav" id="hoofdmenu" aria-label="Hoofdmenu">
       <a href="index.html">Welkom</a>
       <a href="programma.html">Programma</a>
       <a href="dresscode.html">Dresscode</a>
       <a href="locaties.html">Locaties</a>
       <a href="vervoer.html" aria-current="page">Vervoer</a>
       <a href="overnachten.html">Overnachten</a>
-      <a href="zondag.html">Zondag</a>
       <a href="contact.html">Contact</a>
       <a href="rsvp.html">RSVP</a>
   </nav>
@@ -31,12 +31,19 @@
 <main class="page">
   <div class="page__head">
     <h1 class="page__title">Vervoer</h1>
-    <img class="divider" src="imgs/takje.png" width="243" height="59" alt="" aria-hidden="true">
+    <img class="divider" src="imgs/takje.png" width="247" height="59" alt="" aria-hidden="true">
   </div>
 
-  <div class="prose">
-    <p>Na de ceremonie en taart &amp; bubbels vervolgen we de dag bij De Pollepleats in Westhem. Het vervoer tussen de Broerekerk en De Pollepleats regel je zelf.</p>
-    <p>Na afloop van het feest rijdt er om <strong>01.00 uur</strong> een bus vanaf De Pollepleats naar Van der Valk Sneek.</p>
+  <div class="cards">
+    <article class="card">
+      <h2 class="card__title">Naar De Pollepleats</h2>
+      <p>Het vervoer van de Broerekerk naar Westhem regel je zelf.</p>
+    </article>
+
+    <article class="card">
+      <h2 class="card__title">Om 01.00 uur terug</h2>
+      <p>Een bus rijdt van De Pollepleats naar Van der Valk Sneek.</p>
+    </article>
   </div>
 
 
@@ -45,5 +52,6 @@
     </nav>
 </main>
 
+<script src="script.js"></script>
 </body>
 </html>

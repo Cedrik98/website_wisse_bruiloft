@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Programma · Myrthe & Wisse</title>
-<meta name="description" content="Het programma van zaterdag 27 maart 2027: Broerekerk in Bolsward en De Pollepleats in Westhem.">
+<meta name="description" content="Het programma van zaterdag 27 maart 2027 en de zondagochtend erna.">
 <meta name="theme-color" content="#F7F2EE">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,14 +15,14 @@
 
 <header class="topbar">
   <a class="topbar__names" href="index.html">Myrthe &amp; Wisse</a>
-  <nav class="topbar__nav" aria-label="Hoofdmenu">
+  <button class="topbar__knop" type="button" aria-expanded="false" aria-controls="hoofdmenu">Menu</button>
+  <nav class="topbar__nav" id="hoofdmenu" aria-label="Hoofdmenu">
       <a href="index.html">Welkom</a>
       <a href="programma.html" aria-current="page">Programma</a>
       <a href="dresscode.html">Dresscode</a>
       <a href="locaties.html">Locaties</a>
       <a href="vervoer.html">Vervoer</a>
       <a href="overnachten.html">Overnachten</a>
-      <a href="zondag.html">Zondag</a>
       <a href="contact.html">Contact</a>
       <a href="rsvp.html">RSVP</a>
   </nav>
@@ -31,7 +31,7 @@
 <main class="page">
   <div class="page__head">
     <h1 class="page__title">Programma</h1>
-    <img class="divider" src="imgs/takje.png" width="243" height="59" alt="" aria-hidden="true">
+    <img class="divider" src="imgs/takje.png" width="247" height="59" alt="" aria-hidden="true">
     <p class="page__kicker">Zaterdag 27 maart 2027</p>
   </div>
 
@@ -46,20 +46,23 @@
 
     <h2 class="schedule__place">De Pollepleats &ndash; Westhem</h2>
     <ol class="timeline">
-      <li>
-        <span class="timeline__time">16.30</span>
-        <span class="timeline__what">Aperitivo
-          <em class="timeline__note">Een glas, mooie gesprekken en samen landen op het Friese platteland.</em>
-        </span>
-      </li>
+      <li><span class="timeline__time">16.30</span><span class="timeline__what">Aperitivo</span></li>
       <li><span class="timeline__time">18.30</span><span class="timeline__what">Diner &amp; feest</span></li>
       <li><span class="timeline__time">01.00</span><span class="timeline__what">Bus naar Van der Valk Sneek</span></li>
     </ol>
   </div>
 
-  <img class="ornament" src="imgs/takje-klein.png" width="179" height="52" alt="" aria-hidden="true">
+  <img class="ornament" src="imgs/takje-klein.png" width="192" height="52" alt="" aria-hidden="true">
 
-  <p class="note">In de Broerekerk kan het fris zijn. Neem eventueel een vestje mee.</p>
+  <div class="schedule">
+    <h2 class="schedule__place">Zondag 28 maart &ndash; De Pollepleats</h2>
+    <ol class="timeline">
+      <li><span class="timeline__time">10.00</span><span class="timeline__what">Koffie &amp; Fries ontbijt</span></li>
+      <li><span class="timeline__time">13.00</span><span class="timeline__what">Tot ziens</span></li>
+    </ol>
+  </div>
+
+  <p class="note">Blijf je in de buurt slapen? Dan vinden we het gezellig om je zondagochtend nog even te zien.</p>
 
 
     <nav class="pager" aria-label="Volgende pagina">
@@ -67,5 +70,6 @@
     </nav>
 </main>
 
+<script src="script.js"></script>
 </body>
 </html>
