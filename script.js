@@ -9,7 +9,7 @@
 const CONFIG = {
   rsvpEmail: 'rsvp@myrthewisse.nl', // <-- vul hier je eigen mailadres in
   rsvpDeadline: '1 oktober 2026',                 // <-- bijv. '1 februari 2027' (leeg = toont [datum])
-  rsvpEndpoint: '',                 // <-- webadres van het Google Apps Script (leeg = per mail)
+  rsvpEndpoint: 'https://script.google.com/macros/s/AKfycbz3aicWf5xX7VjrINawwSflT8MsAUiHHa8QdwkDvCYzNsQ-hoSGEgVBottRmbqtdwo3lw/exec',                 // <-- webadres van het Google Apps Script (leeg = per mail)
 };
 
 /* ---------- Menu op smalle schermen ---------- */
