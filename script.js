@@ -7,8 +7,8 @@
    ========================================================= */
 
 const CONFIG = {
-  rsvpEmail: 'rsvp@myrthewisse.nl', // <-- vul hier je eigen mailadres in
-  rsvpDeadline: '1 oktober 2026',                 // <-- bijv. '1 februari 2027' (leeg = toont [datum])
+  rsvpEmail: 'myrthe.wisse@gmail.com', // <-- vul hier je eigen mailadres in
+  rsvpDeadline: '1 november 2026',                 // <-- bijv. '1 februari 2027' (leeg = toont [datum])
   rsvpEndpoint: 'https://script.google.com/macros/s/AKfycbz3aicWf5xX7VjrINawwSflT8MsAUiHHa8QdwkDvCYzNsQ-hoSGEgVBottRmbqtdwo3lw/exec',                 // <-- webadres van het Google Apps Script (leeg = per mail)
 };
 
@@ -83,55 +83,20 @@ document.querySelectorAll('[data-rsvp-mail]').forEach((el) => {
 const form = document.getElementById('rsvp-form');
 
 if (form) {
-  const lijst = form.querySelector('#gasten');
-  const sjabloon = form.querySelector('#gast-sjabloon');
-  const knopErbij = form.querySelector('#gast-erbij');
-  let teller = 0;
-
-  const gastErbij = (titel) => {
-    teller += 1;
-    const blok = sjabloon.content.firstElementChild.cloneNode(true);
-    blok.innerHTML = blok.innerHTML.replaceAll('__n__', String(teller));
-    blok.querySelector('.gast__titel').textContent = titel;
-
-    const weg = blok.querySelector('.gast__weg');
-    if (teller === 1) {
-      weg.remove();
-    } else {
-      weg.hidden = false;
-      weg.addEventListener('click', () => {
-        blok.remove();
-        knopErbij.hidden = false;
-      });
-    }
-
-    lijst.append(blok);
-    return blok;
-  };
-
-  gastErbij('Jij');
-
-  knopErbij.addEventListener('click', () => {
-    const blok = gastErbij('Wie neem je mee?');
-    knopErbij.hidden = true;                       // één +1 is genoeg
-    blok.querySelector('input[type="text"]').focus();
-  });
-
-  // per gast één regel, zodat het zo de spreadsheet in kan
-  const lees = () => Array.from(form.querySelectorAll('.gast')).map((blok) => {
-    const waarde = (veld) => {
-      const el = blok.querySelector(`[data-veld="${veld}"]:checked`)
-              || blok.querySelector(`input[data-veld="${veld}"]`);
+  // één regel per aanmelding; iedereen vult het formulier voor zichzelf in
+  const lees = () => {
+    const veld = (naam) => {
+      const el = form.querySelector(`[name="${naam}"]:checked`) || form.querySelector(`[name="${naam}"]`);
       return el ? el.value.trim() : '';
     };
-    return {
-      naam: waarde('naam'),
-      komt: waarde('komt'),
-      allergieen: waarde('allergie') || 'geen',
-      vegetarisch: waarde('vega'),
-      bus: waarde('bus'),
-    };
-  });
+    return [{
+      naam: veld('naam'),
+      komt: veld('komt'),
+      allergieen: veld('allergie') || 'geen',
+      vegetarisch: veld('vega'),
+      bus: veld('bus'),
+    }];
+  };
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -141,30 +106,38 @@ if (form) {
 
     if (CONFIG.rsvpEndpoint) {
       try {
-        await fetch(CONFIG.rsvpEndpoint, {
+        const antwoord = await fetch(CONFIG.rsvpEndpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify({ ingezonden: new Date().toISOString(), gasten }),
         });
+        if (!antwoord.ok) throw new Error('status ' + antwoord.status);
+
+        // Google stuurt een inlogpagina terug als de implementatie niet op
+        // "Iedereen" staat; dan is er niets opgeslagen ondanks status 200.
+        let tekst = 'ok';
+        try { tekst = (await antwoord.text()).trim(); } catch (e) { /* niet leesbaar: aannemen dat het goed ging */ }
+        if (tekst && !/^ok/i.test(tekst)) throw new Error('onverwacht antwoord van de spreadsheet');
         form.querySelectorAll('input, button').forEach((el) => { el.disabled = true; });
         toonStatus('Dank je wel, we hebben je aanmelding ontvangen. Tot 27 maart!');
         return;
       } catch (fout) {
-        // geen verbinding: dan alsnog per mail
+        // niet opgeslagen: dan alsnog per mail, zodat de aanmelding niet verloren gaat
       }
     }
 
-    const regels = gasten.map((g) => [
+    const g = gasten[0];
+    const regels = [
       'Naam: ' + g.naam,
       'Komt: ' + g.komt,
       'Allergieën: ' + g.allergieen,
       'Vegetarisch: ' + g.vegetarisch,
       'Bus naar Van der Valk: ' + g.bus,
-    ].join('\n'));
+    ].join('\n');
 
     const mailto = 'mailto:' + CONFIG.rsvpEmail +
-      '?subject=' + encodeURIComponent('RSVP Myrthe & Wisse — ' + (gasten[0] ? gasten[0].naam : '')) +
-      '&body=' + encodeURIComponent(regels.join('\n\n'));
+      '?subject=' + encodeURIComponent('RSVP Myrthe & Wisse — ' + g.naam) +
+      '&body=' + encodeURIComponent(regels);
 
     window.location.href = mailto;
     toonStatus(

@@ -43,18 +43,18 @@ Zolang `rsvpDeadline` leeg is, staat er `[datum]` op de RSVP-pagina.
 
 ## RSVP: de antwoorden in een spreadsheet
 
-Het formulier vraagt per persoon vier dingen: kom je, allergieën, vegetarisch, en de bus
-van en naar Van der Valk. Met de knop "Iemand meenemen" komt er een tweede blok bij met
-dezelfde velden, zodat een +1 met naam en al wordt doorgegeven. Elke persoon wordt
-één regel.
+Het formulier vraagt naam, kom je, allergieën, vegetarisch, en de bus van en naar
+Van der Valk. Iedereen meldt zich apart aan — één aanmelding is één regel in de sheet.
+Wie met z'n tweeën komt, vult het formulier dus twee keer in; dat staat ook boven het
+formulier.
 
-Zolang `rsvpEndpoint` leeg is, opent bij versturen de mailapp met een ingevulde mail —
-dat werkt altijd, maar je typt de antwoorden zelf over. Wil je ze direct in een
-spreadsheet, zet dan één keer dit op:
+Zolang `rsvpEndpoint` leeg is, opent bij versturen de mailapp met een ingevulde mail.
+Voor de spreadsheet, ingelogd als **myrthe.wisse@gmail.com**:
 
-1. Maak een Google Spreadsheet met als kopregel:
-   `Ingezonden · Naam · Komt · Allergieën · Vegetarisch · Bus`.
-2. Kies **Extensies → Apps Script** en plak:
+1. Ga naar [sheets.new](https://sheets.new) en noem het bestand bijvoorbeeld
+   "RSVP Myrthe & Wisse". Zet in rij 1, van A tot en met F:
+   `Ingezonden` · `Naam` · `Komt` · `Allergieën` · `Vegetarisch` · `Bus`
+2. **Extensies → Apps Script**. Gooi weg wat er staat en plak:
 
    ```js
    function doPost(e) {
@@ -68,15 +68,28 @@ spreadsheet, zet dan één keer dit op:
    }
    ```
 
-3. **Implementeren → Nieuwe implementatie → Web-app**, uitvoeren als jezelf,
-   toegang voor "Iedereen". Kopieer het webadres dat je krijgt.
-4. Plak dat adres in `rsvpEndpoint` in `script.js`.
+   Opslaan met het diskette-icoon.
+3. Rechtsboven **Implementeren → Nieuwe implementatie**. Klik op het tandwiel bij
+   "Type selecteren" en kies **Web-app**. Dan:
+   - Uitvoeren als: **Ik (myrthe.wisse@gmail.com)**
+   - Wie heeft toegang: **Iedereen** — let op, *niet* "Iedereen met een Google-account",
+     want dan moeten je gasten inloggen en wordt er niets opgeslagen.
+4. Google vraagt om toestemming: **Toegang controleren** → kies het account →
+   "Google heeft deze app niet geverifieerd" → **Geavanceerd** → **Ga naar Naamloos
+   project (onveilig)** → **Toestaan**. Dat is normaal voor een eigen script.
+5. Kopieer de **Web-app-URL** (eindigt op `/exec`) en plak die in `rsvpEndpoint`
+   in `script.js`.
+6. Vul het formulier op de site één keer in met je eigen naam en kijk of de regel in
+   de sheet verschijnt. Verwijder die testregel daarna.
 
-Elke aanmelding komt er dan als losse regels per persoon in te staan; die sheet
-download je als Excel via **Bestand → Downloaden → Microsoft Excel**.
-Lukt het versturen niet (geen verbinding, of de implementatie staat verkeerd),
-dan valt het formulier vanzelf terug op de mail, dus je raakt nooit een aanmelding kwijt.
-Test het na het instellen één keer met je eigen naam.
+Downloaden als Excel kan via **Bestand → Downloaden → Microsoft Excel**. Wil je een
+mailtje bij elke aanmelding: in de sheet **Extra → Meldingsregels instellen**.
+
+Twee dingen die het script zelf afvangt: als Google een fout of een inlogpagina
+teruggeeft, valt het formulier terug op de mail, zodat een aanmelding nooit stilletjes
+verdwijnt. Pas je het Apps Script aan, dan moet je **een nieuwe implementatie maken**
+(of de bestaande bewerken en het versienummer ophogen) — anders blijft de oude versie
+draaien.
 
 ## Kleuren & fonts
 
@@ -120,6 +133,12 @@ Dezelfde valkuil geldt voor breedtes. De maten staan bij elkaar bovenin:
 `--measure` (44rem) is de leeskolom voor alle lopende tekst, `.page` (74rem) is
 de buitenmaat van een pagina, en de kaartrasters zitten daartussen
 (`.cards` 64rem, `.cards--three` 74rem).
+
+Die maten staan als `min(44rem, 100%)` genoteerd, en dat is geen franje: deze blokken
+worden met `margin: auto` gecentreerd in een flex-kolom, waardoor ze op hun inhoud
+worden gemeten in plaats van op de beschikbare ruimte. Zonder die `100%` werd het
+kaartraster op een telefoon 502px breed in een scherm van 390px. Zet er dus altijd
+`min(..., 100%)` omheen.
 
 Waarom dat uitmaakt: bij dezelfde lettergrootte bepaalt de breedte van het blok
 hoe lang de regels zijn, en dáár zie je verschil tussen pagina's. Ter controle,
