@@ -115,8 +115,7 @@ if (form) {
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify({ ingezonden: new Date().toISOString(), gasten }),
         });
-        form.querySelectorAll('input, button').forEach((el) => { el.disabled = true; });
-        toonStatus('Dank je wel, we hebben je aanmelding ontvangen. Tot 27 maart!');
+        toonBedankt(gasten[0]);
         return;
       } catch (fout) {
         // geen verbinding: dan alsnog per mail, zodat de aanmelding niet verloren gaat
@@ -142,6 +141,53 @@ if (form) {
       'Gebeurt er niets? Mail ons dan op ' + CONFIG.rsvpEmail + '.'
     );
   });
+
+  // de hele pagina schakelt om, zodat duidelijk is dat het gelukt is
+  function toonBedankt(g) {
+    const intro = document.querySelector('.page__intro');
+    if (intro) intro.remove();
+
+    const blok = document.createElement('div');
+    blok.className = 'bedankt';
+
+    const kop = document.createElement('p');
+    kop.className = 'statement';
+    kop.textContent = g.komt === 'ja' ? 'Dank je wel!' : 'Dank je wel voor het laten weten';
+
+    const onder = document.createElement('p');
+    onder.className = 'statement statement--sub';
+    onder.textContent = g.komt === 'ja'
+      ? 'We hebben je aanmelding ontvangen'
+      : 'Jammer dat je er niet bij kunt zijn';
+
+    const tekst = document.createElement('div');
+    tekst.className = 'prose';
+    const regel = document.createElement('p');
+    if (g.komt === 'ja') {
+      regel.append('Tot 27 maart, ');
+      const naam = document.createElement('strong');
+      naam.textContent = g.naam;
+      regel.append(naam, '!');
+    } else {
+      regel.textContent = 'We denken aan je op onze dag.';
+    }
+
+    tekst.append(regel);
+
+    if (g.komt === 'ja') {
+      const verder = document.createElement('p');
+      verder.append('Nog even nalezen wat er die dag gebeurt? ');
+      const link = document.createElement('a');
+      link.className = 'link';
+      link.href = 'programma.html';
+      link.textContent = 'Bekijk het programma';
+      verder.append(link, '.');
+      tekst.append(verder);
+    }
+    blok.append(kop, onder, tekst);
+    form.replaceWith(blok);
+    blok.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  }
 
   function toonStatus(bericht) {
     let status = form.querySelector('.rsvp__status');
