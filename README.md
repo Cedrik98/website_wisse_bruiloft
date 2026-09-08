@@ -78,7 +78,9 @@ Voor de spreadsheet, ingelogd als **myrthe.wisse@gmail.com**:
    "Google heeft deze app niet geverifieerd" → **Geavanceerd** → **Ga naar Naamloos
    project (onveilig)** → **Toestaan**. Dat is normaal voor een eigen script.
 5. Kopieer de **Web-app-URL** (eindigt op `/exec`) en plak die in `rsvpEndpoint`
-   in `script.js`.
+   in `script.js`. Kwijt? In de Apps Script-editor: **Implementeren → Implementaties
+   beheren**, daar staat hij onder "Web-app". Let op dat het adres op `/exec` eindigt;
+   de `/dev`-variant is alleen een testadres dat voor gasten niet werkt.
 6. Vul het formulier op de site één keer in met je eigen naam en kijk of de regel in
    de sheet verschijnt. Verwijder die testregel daarna.
 

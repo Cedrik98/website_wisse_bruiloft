@@ -9,7 +9,7 @@
 const CONFIG = {
   rsvpEmail: 'myrthe.wisse@gmail.com', // <-- vul hier je eigen mailadres in
   rsvpDeadline: '1 november 2026',                 // <-- bijv. '1 februari 2027' (leeg = toont [datum])
-  rsvpEndpoint: 'https://script.google.com/macros/s/AKfycbz3aicWf5xX7VjrINawwSflT8MsAUiHHa8QdwkDvCYzNsQ-hoSGEgVBottRmbqtdwo3lw/exec',                 // <-- webadres van het Google Apps Script (leeg = per mail)
+  rsvpEndpoint: 'https://script.google.com/macros/s/AKfycbzIWuDZCaXjm_vX4fQB-rGa9N7rirAkJSDbB6eXEyTO1yI8C4e0PaWgo4QgPD21HO9X/exec',                 // <-- webadres van het Google Apps Script (leeg = per mail)
 };
 
 /* ---------- Menu op smalle schermen ---------- */
