@@ -1,15 +1,14 @@
 /* =========================================================
    Myrthe & Wisse
    ---------------------------------------------------------
-   AANPASSEN: hieronder het mailadres, de RSVP-datum en
-   (optioneel) het adres waar de antwoorden heen mogen.
+   AANPASSEN: hieronder de RSVP-datum en het adres van het
+   Apps Script waar de antwoorden heen gaan.
    Zie README.md voor het opzetten van de spreadsheet.
    ========================================================= */
 
 const CONFIG = {
-  rsvpEmail: 'myrthe.wisse@gmail.com', // <-- vul hier je eigen mailadres in
   rsvpDeadline: '1 november 2026',                 // <-- bijv. '1 februari 2027' (leeg = toont [datum])
-  rsvpEndpoint: 'https://script.google.com/macros/s/AKfycbzIWuDZCaXjm_vX4fQB-rGa9N7rirAkJSDbB6eXEyTO1yI8C4e0PaWgo4QgPD21HO9X/exec',                 // <-- webadres van het Google Apps Script (leeg = per mail)
+  rsvpEndpoint: 'https://script.google.com/macros/s/AKfycbzIWuDZCaXjm_vX4fQB-rGa9N7rirAkJSDbB6eXEyTO1yI8C4e0PaWgo4QgPD21HO9X/exec',                 // <-- webadres van het Google Apps Script (verplicht)
 };
 
 /* ---------- Menu op smalle schermen ---------- */
@@ -75,11 +74,6 @@ if (CONFIG.rsvpDeadline) {
   });
 }
 
-document.querySelectorAll('[data-rsvp-mail]').forEach((el) => {
-  el.textContent = CONFIG.rsvpEmail;
-  el.href = 'mailto:' + CONFIG.rsvpEmail;
-});
-
 const form = document.getElementById('rsvp-form');
 
 if (form) {
@@ -98,9 +92,19 @@ if (form) {
     }];
   };
 
+  let bezig = false;
+  const verstuurKnop = form.querySelector('button[type="submit"]');
+
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
+    if (bezig) return;                       // dubbelklikken levert anders dubbele regels op
     if (!form.reportValidity()) return;
+
+    bezig = true;
+    if (verstuurKnop) {
+      verstuurKnop.disabled = true;
+      verstuurKnop.textContent = 'Versturen\u2026';
+    }
 
     const gasten = lees();
 
@@ -118,27 +122,20 @@ if (form) {
         toonBedankt(gasten[0]);
         return;
       } catch (fout) {
-        // geen verbinding: dan alsnog per mail, zodat de aanmelding niet verloren gaat
+        // geen verbinding: hieronder vragen we om het opnieuw te proberen
       }
     }
 
-    const g = gasten[0];
-    const regels = [
-      'Naam: ' + g.naam,
-      'Komt: ' + g.komt,
-      'Allergieën: ' + g.allergieen,
-      'Vegetarisch: ' + g.vegetarisch,
-      'Bus naar Van der Valk: ' + g.bus,
-    ].join('\n');
+    // geen mailoptie: aanmelden kan alleen via dit formulier
+    bezig = false;
+    if (verstuurKnop) {
+      verstuurKnop.disabled = false;
+      verstuurKnop.textContent = 'Verstuur RSVP';
+    }
 
-    const mailto = 'mailto:' + CONFIG.rsvpEmail +
-      '?subject=' + encodeURIComponent('RSVP Myrthe & Wisse — ' + g.naam) +
-      '&body=' + encodeURIComponent(regels);
-
-    window.location.href = mailto;
     toonStatus(
-      'Je mailprogramma opent met een ingevulde mail. Versturen en klaar! ' +
-      'Gebeurt er niets? Mail ons dan op ' + CONFIG.rsvpEmail + '.'
+      'Het versturen lukte niet. Controleer je internetverbinding en probeer het ' +
+      'nog een keer.'
     );
   });
 
@@ -168,8 +165,6 @@ if (form) {
       const naam = document.createElement('strong');
       naam.textContent = g.naam;
       regel.append(naam, '!');
-    } else {
-      regel.textContent = 'We denken aan je op onze dag.';
     }
 
     tekst.append(regel);

@@ -26,17 +26,29 @@ klapt hij samen achter een knop "Menu". Let op: browserzoom telt mee — op 140%
 is een venster van 1853px nog maar 1280px "breed" voor de opmaak, en dan geldt de
 compacte stand. Zonder die tussenstand brak de balk daar in twee regels.
 
-Geen build-stap, geen dependencies. Openen kan met een dubbelklik op `index.html`;
-online komt het via GitHub Pages (branch `main`, root, met `CNAME` op myrthewisse.nl).
+Geen build-stap, geen dependencies. Online komt het via GitHub Pages
+(branch `main`, root, met `CNAME` op myrthewisse.nl).
+
+De links tussen de pagina's staan zonder `.html` (`href="programma"`), zodat de
+adresbalk `myrthewisse.nl/programma` toont. GitHub Pages vindt `programma.html`
+daar vanzelf bij. Gevolg: dubbelklikken op `index.html` werkt niet meer om door te
+klikken, want een browser kan `file:///.../programma` niet vinden. Start lokaal dus:
+
+```
+python3 serve.py
+```
+
+Dat zet de site op http://localhost:8000 (of de eerstvolgende vrije poort) en zoekt
+bij `/programma` net als GitHub Pages het bestand `programma.html` erbij. Een losse
+pagina bekijken kan nog steeds met een dubbelklik; alleen het menu werkt dan niet.
 
 ## Nog invullen
 
 In `script.js`, bovenaan bij `CONFIG`:
 
 ```js
-rsvpEmail:    'rsvp@myrthewisse.nl', // eigen mailadres
-rsvpDeadline: '',                    // bijv. '1 februari 2027'
-rsvpEndpoint: '',                    // adres van het Apps Script, zie hieronder
+rsvpDeadline: '',   // bijv. '1 februari 2027'
+rsvpEndpoint: '',   // adres van het Apps Script, zie hieronder — verplicht
 ```
 
 Zolang `rsvpDeadline` leeg is, staat er `[datum]` op de RSVP-pagina.
@@ -48,8 +60,9 @@ Van der Valk. Iedereen meldt zich apart aan — één aanmelding is één regel 
 Wie met z'n tweeën komt, vult het formulier dus twee keer in; dat staat ook boven het
 formulier.
 
-Zolang `rsvpEndpoint` leeg is, opent bij versturen de mailapp met een ingevulde mail.
-Voor de spreadsheet, ingelogd als **myrthe.wisse@gmail.com**:
+Aanmelden kan alleen via dit formulier; er is bewust geen mailoptie. `rsvpEndpoint`
+moet dus ingevuld zijn, anders komt een aanmelding nergens aan. Voor de spreadsheet,
+ingelogd als **myrthe.wisse@gmail.com**:
 
 1. Ga naar [sheets.new](https://sheets.new) en noem het bestand bijvoorbeeld
    "RSVP Myrthe & Wisse". Zet in rij 1, van A tot en met F:
@@ -93,11 +106,13 @@ Google's Apps Script stuurt geen CORS-header terug, waardoor een browser het ant
 niet mag lezen. Het verzoek gaat daarom met `mode: 'no-cors'`: het komt wél aan, maar
 we krijgen geen bevestiging terug (`type: opaque`, `status: 0`). Het formulier meldt
 dus "dank je wel" zodra het verzoek de deur uit is. Alleen als er echt geen verbinding
-is, mislukt de `fetch` en valt het formulier terug op de mail.
+is, mislukt de `fetch` en vraagt het formulier om het nog eens te proberen.
 
-Gevolg: de site kan niet zien of Google de regel echt heeft opgeslagen. Controleer
-daarom na elke wijziging aan het Apps Script één keer met een testaanmelding of de
-regel in de sheet verschijnt. Een snelle controle of de implementatie openbaar staat,
+Gevolg: de site kan niet zien of Google de regel echt heeft opgeslagen. Omdat er geen
+mailterugval meer is, is dat het enige zwakke punt: staat de implementatie verkeerd,
+dan ziet een gast "dank je wel" terwijl er niets in de sheet komt. Controleer daarom
+na elke wijziging aan het Apps Script één keer met een testaanmelding of de regel
+verschijnt, en kijk tussendoor af en toe in de sheet. Een snelle controle of de implementatie openbaar staat,
 kan ook zonder browser:
 
 ```
