@@ -87,11 +87,28 @@ Voor de spreadsheet, ingelogd als **myrthe.wisse@gmail.com**:
 Downloaden als Excel kan via **Bestand → Downloaden → Microsoft Excel**. Wil je een
 mailtje bij elke aanmelding: in de sheet **Extra → Meldingsregels instellen**.
 
-Twee dingen die het script zelf afvangt: als Google een fout of een inlogpagina
-teruggeeft, valt het formulier terug op de mail, zodat een aanmelding nooit stilletjes
-verdwijnt. Pas je het Apps Script aan, dan moet je **een nieuwe implementatie maken**
-(of de bestaande bewerken en het versienummer ophogen) — anders blijft de oude versie
-draaien.
+### Waarom het versturen "blind" gebeurt
+
+Google's Apps Script stuurt geen CORS-header terug, waardoor een browser het antwoord
+niet mag lezen. Het verzoek gaat daarom met `mode: 'no-cors'`: het komt wél aan, maar
+we krijgen geen bevestiging terug (`type: opaque`, `status: 0`). Het formulier meldt
+dus "dank je wel" zodra het verzoek de deur uit is. Alleen als er echt geen verbinding
+is, mislukt de `fetch` en valt het formulier terug op de mail.
+
+Gevolg: de site kan niet zien of Google de regel echt heeft opgeslagen. Controleer
+daarom na elke wijziging aan het Apps Script één keer met een testaanmelding of de
+regel in de sheet verschijnt. Een snelle controle of de implementatie openbaar staat,
+kan ook zonder browser:
+
+```
+curl -sL "<jouw /exec-URL>" | grep -o "Scriptfunctie niet gevonden: doGet"
+```
+
+Komt die tekst terug, dan is de web-app bereikbaar zonder inloggen — precies goed.
+Krijg je in plaats daarvan een inlogpagina, dan staat "Wie heeft toegang" verkeerd.
+
+Pas je het Apps Script aan, dan moet je **een nieuwe implementatie maken** (of de
+bestaande bewerken en het versienummer ophogen) — anders blijft de oude versie draaien.
 
 ## Kleuren & fonts
 

@@ -106,23 +106,20 @@ if (form) {
 
     if (CONFIG.rsvpEndpoint) {
       try {
-        const antwoord = await fetch(CONFIG.rsvpEndpoint, {
+        // Google's Apps Script stuurt geen CORS-header terug, dus het antwoord is
+        // niet leesbaar. Met mode 'no-cors' komt het verzoek wél aan; we krijgen
+        // alleen geen bevestiging terug. Een uitzondering betekent: niet verstuurd.
+        await fetch(CONFIG.rsvpEndpoint, {
           method: 'POST',
+          mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify({ ingezonden: new Date().toISOString(), gasten }),
         });
-        if (!antwoord.ok) throw new Error('status ' + antwoord.status);
-
-        // Google stuurt een inlogpagina terug als de implementatie niet op
-        // "Iedereen" staat; dan is er niets opgeslagen ondanks status 200.
-        let tekst = 'ok';
-        try { tekst = (await antwoord.text()).trim(); } catch (e) { /* niet leesbaar: aannemen dat het goed ging */ }
-        if (tekst && !/^ok/i.test(tekst)) throw new Error('onverwacht antwoord van de spreadsheet');
         form.querySelectorAll('input, button').forEach((el) => { el.disabled = true; });
         toonStatus('Dank je wel, we hebben je aanmelding ontvangen. Tot 27 maart!');
         return;
       } catch (fout) {
-        // niet opgeslagen: dan alsnog per mail, zodat de aanmelding niet verloren gaat
+        // geen verbinding: dan alsnog per mail, zodat de aanmelding niet verloren gaat
       }
     }
 
